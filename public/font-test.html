@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Font Character Map Test</title>
+<style>
+@font-face {
+  font-family: 'THARU DIGITAL MAHEE';
+  src: url('/fonts/tharu-digital-mahee.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'THARU DIGITAL NIKINI';
+  src: url('/fonts/tharu-digital-nikini.ttf') format('truetype');
+}
+body { font-family: Arial, sans-serif; padding: 20px; background: #111; color: #fff; }
+h2 { margin-top: 40px; color: #FFD546; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
+.cell { background: #222; border-radius: 8px; padding: 10px; text-align: center; }
+.char { font-size: 36px; line-height: 1.4; }
+.label { font-size: 11px; color: #888; margin-top: 4px; }
+.mahee { font-family: 'THARU DIGITAL MAHEE', sans-serif; }
+.nikini { font-family: 'THARU DIGITAL NIKINI', sans-serif; }
+</style>
+</head>
+<body>
+<h1>THARU DIGITAL Font Character Map</h1>
+<p>Each box shows the ASCII character rendered in the font. Screenshot this and send it back.</p>
+
+<h2>THARU DIGITAL MAHEE — Uppercase A-Z</h2>
+<div class="grid" id="mahee-upper"></div>
+
+<h2>THARU DIGITAL MAHEE — Lowercase a-z</h2>
+<div class="grid" id="mahee-lower"></div>
+
+<h2>THARU DIGITAL MAHEE — Symbols & Numbers</h2>
+<div class="grid" id="mahee-sym"></div>
+
+<h2>THARU DIGITAL NIKINI — Uppercase A-Z</h2>
+<div class="grid" id="nikini-upper"></div>
+
+<h2>THARU DIGITAL NIKINI — Lowercase a-z</h2>
+<div class="grid" id="nikini-lower"></div>
+
+<h2>THARU DIGITAL NIKINI — Symbols & Numbers</h2>
+<div class="grid" id="nikini-sym"></div>
+
+<script>
+function fill(containerId, fontClass, chars) {
+  const el = document.getElementById(containerId);
+  chars.forEach(c => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.innerHTML = `<div class="char ${fontClass}">${c}</div><div class="label">${c} (${c.charCodeAt(0)})</div>`;
+    el.appendChild(cell);
+  });
+}
+
+const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const lower = 'abcdefghijklmnopqrstuvwxyz'.split('');
+const syms = '0123456789!@#$%^&*()-_=+[]{}|;:,.<>?/~`'.split('');
+
+fill('mahee-upper', 'mahee', upper);
+fill('mahee-lower', 'mahee', lower);
+fill('mahee-sym', 'mahee', syms);
+fill('nikini-upper', 'nikini', upper);
+fill('nikini-lower', 'nikini', lower);
+fill('nikini-sym', 'nikini', syms);
+</script>
+</body>
+</html>

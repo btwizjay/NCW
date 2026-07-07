@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'THARU DIGITAL MAHEE';
+  src: url('../public/fonts/tharu-digital-mahee.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'THARU DIGITAL NIKINI';
+  src: url('../public/fonts/tharu-digital-nikini.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* Plain-CSS marquee — defined outside Tailwind so it's always in the output
+   regardless of config/JIT picking it up. */
+@keyframes marquee-left {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee-track {
+  animation: marquee-left 50s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee-right {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+.marquee-track-right {
+  animation: marquee-right 60s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track-slow {
+  animation-duration: 65s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .marquee-track-right { animation: none !important; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   Ambient motion for the Book & Contact pages.
+   Defined outside Tailwind layers so they always ship in the build.
+   ─────────────────────────────────────────────────────────────── */
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1);    opacity: 0.65; }
+  50%  { transform: translate3d(3%, -4%, 0) scale(1.1); opacity: 0.9; }
+  100% { transform: translate3d(-3%, 3%, 0) scale(1.04); opacity: 0.7; }
+}
+.animate-aurora {
+  animation: aurora-drift 16s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora { animation: none !important; }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-pirulen), sans-serif;
+  color: #a91916;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Hide the page scrollbar while keeping the page scrollable. */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* old Edge / IE */
+  }
+
+  /* Chrome, Safari, modern Edge */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    @apply bg-surface text-ink antialiased;
+    position: relative;
+    z-index: 0;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgb(26 26 26);
+    color: white;
+  }
+
+  h1, h2, h3, h4 {
+    @apply tracking-tighter text-ink;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Faint dotted grid — subtle texture behind page-intro headlines. */
+  .bg-grid-faint {
+    background-image: radial-gradient(circle at 1px 1px, rgba(36, 56, 139, 0.09) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  .reveal {
+    animation: reveal 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .reveal-delay-1 { animation-delay: 0.08s; }
+  .reveal-delay-2 { animation-delay: 0.16s; }
+  .reveal-delay-3 { animation-delay: 0.24s; }
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   Lenis smooth scrolling — base styles required by the library.
+   The instance is created in components/SmoothScroll.tsx.
+   ─────────────────────────────────────────────────────────────── */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }

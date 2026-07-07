@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sinhala Text Candidates</title>
+<style>
+@font-face {
+  font-family: 'THARU DIGITAL MAHEE';
+  src: url('/fonts/tharu-digital-mahee.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'THARU DIGITAL NIKINI';
+  src: url('/fonts/tharu-digital-nikini.ttf') format('truetype');
+}
+body { font-family: Arial, sans-serif; padding: 30px; background: #111; color: #fff; }
+h2 { color: #FFD546; margin-top: 40px; }
+.candidate {
+  background: #222;
+  border-radius: 12px;
+  padding: 20px 30px;
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.num {
+  background: #444;
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 14px; flex-shrink: 0;
+}
+.rendered { font-size: 48px; line-height: 1.4; }
+.mahee { font-family: 'THARU DIGITAL MAHEE', sans-serif; color: #FFD546; }
+.nikini { font-family: 'THARU DIGITAL NIKINI', sans-serif; color: #fff; }
+.ascii { font-size: 13px; color: #888; margin-top: 6px; font-family: monospace; }
+.target { color: #aaa; font-size: 14px; margin-bottom: 10px; }
+.section { margin-bottom: 60px; }
+</style>
+</head>
+<body>
+
+<h1>Which one looks correct?</h1>
+<p>Tell me the candidate number that correctly renders the Sinhala text.</p>
+
+<div class="section">
+<h2>Line 1: වාහන සුවපහසුකරණයේ (MAHEE font, yellow)</h2>
+<p class="target">Target: වාහන සුවපහසුකරණයේ</p>
+
+<div class="candidate">
+  <div class="num">1</div>
+  <div>
+    <div class="rendered mahee">jdyk iqjmyiqrlKTh</div>
+    <div class="ascii">ASCII: jdyk iqjmyiqrlKTh</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">2</div>
+  <div>
+    <div class="rendered mahee">jdyk iqjmyiqrlKhT</div>
+    <div class="ascii">ASCII: jdyk iqjmyiqrlKhT</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">3</div>
+  <div>
+    <div class="rendered mahee">jdyn iqjmyiqrlKTh</div>
+    <div class="ascii">ASCII: jdyn iqjmyiqrlKTh</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">4</div>
+  <div>
+    <div class="rendered mahee">jdhy iqjfyiqrlKTh</div>
+    <div class="ascii">ASCII: jdhy iqjfyiqrlKTh</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">5</div>
+  <div>
+    <div class="rendered mahee">jdyk iqjmhiqrlKTh</div>
+    <div class="ascii">ASCII: jdyk iqjmhiqrlKTh</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">6</div>
+  <div>
+    <div class="rendered mahee">jdyk iqjmhiqrlKhE</div>
+    <div class="ascii">ASCII: jdyk iqjmhiqrlKhE</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">7</div>
+  <div>
+    <div class="rendered mahee">kdyk iqjmyiqrlKTh</div>
+    <div class="ascii">ASCII: kdyk (if k=ව)</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">8</div>
+  <div>
+    <div class="rendered mahee">jdyk iqjmyiqr,KTh</div>
+    <div class="ascii">ASCII: jdyk iqjmyiqr,KTh (if ,=ල)</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>Line 2: ගුරුගෙදර (NIKINI font, white)</h2>
+<p class="target">Target: ගුරුගෙදර</p>
+
+<div class="candidate">
+  <div class="num">1</div>
+  <div>
+    <div class="rendered nikini">.qrqt.or</div>
+    <div class="ascii">ASCII: .qrqt.or</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">2</div>
+  <div>
+    <div class="rendered nikini">.qrq.tor</div>
+    <div class="ascii">ASCII: .qrq.tor</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">3</div>
+  <div>
+    <div class="rendered nikini">.QrQt.or</div>
+    <div class="ascii">ASCII: .Qrqt.or (Q=ූ)</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">4</div>
+  <div>
+    <div class="rendered nikini">;qrqt;or</div>
+    <div class="ascii">ASCII: ;qrqt;or (if ;=ග)</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">5</div>
+  <div>
+    <div class="rendered nikini">.qrqe.or</div>
+    <div class="ascii">ASCII: .qrqe.or (if e=ෙ)</div>
+  </div>
+</div>
+
+<div class="candidate">
+  <div class="num">6</div>
+  <div>
+    <div class="rendered nikini">.qrq.eor</div>
+    <div class="ascii">ASCII: .qrq.eor</div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<h2>Free-form test: type below to see the font</h2>
+<input type="text" id="testInput" placeholder="Type ASCII here..."
+  style="width:100%;padding:12px;font-size:18px;background:#333;border:1px solid #555;color:#fff;border-radius:8px;margin-bottom:10px;">
+<div id="maheeOutput" class="mahee" style="font-size:56px;padding:20px;background:#222;border-radius:12px;margin-bottom:10px;min-height:80px;"></div>
+<div id="nikiniOutput" class="nikini" style="font-size:80px;padding:20px;background:#222;border-radius:12px;min-height:100px;"></div>
+<script>
+const input = document.getElementById('testInput');
+const maheeOut = document.getElementById('maheeOutput');
+const nikiniOut = document.getElementById('nikiniOutput');
+input.addEventListener('input', () => {
+  maheeOut.textContent = input.value;
+  nikiniOut.textContent = input.value;
+});
+</script>
+</div>
+
+</body>
+</html>
