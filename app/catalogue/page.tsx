@@ -18,7 +18,7 @@ import {
 
 export const metadata: Metadata = pageMetadata(
   'Product Catalogue',
-  'Japanese seat sets, custom cushions, leather re-trims and interior parts — grouped by vehicle brand.',
+  'Japanese seat sets, custom cushions, leather re-trims and interior parts, grouped by vehicle brand.',
 );
 
 type SearchParams = {
@@ -86,7 +86,7 @@ export default async function CataloguePage({
         imageAlt="Catalogued seat sets and interior work"
         eyebrow="Product catalogue"
         title="Browse Our Work"
-        subtitle="A growing catalogue of seat sets, cushions, panels and trim work — tap any item to enquire about your specific model."
+        subtitle="A growing catalogue of seat sets, cushions, panels and trim work. Tap any item to enquire about your specific model."
       >
 
       <Section tone="transparent" size="wide" className="!pt-8 sm:!pt-12">

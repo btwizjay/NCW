@@ -190,7 +190,7 @@ export function ContactContent() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="h-full w-full"
-                title={`${business.name} — workshop location in ${business.address.city}`}
+                title={`${business.name} workshop location in ${business.address.city}`}
               />
             </div>
           </motion.div>
@@ -638,7 +638,7 @@ function ContactForm({
 
         {status === 'error' && (
           <p className="text-center text-[14px] text-accent">
-            Couldn’t send — please try WhatsApp or give us a call.
+            Couldn’t send. Please try WhatsApp or give us a call.
           </p>
         )}
       </div>

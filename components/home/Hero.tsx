@@ -75,7 +75,7 @@ export function Hero() {
             </h1>
 
             <p className="reveal reveal-delay-2 mt-6 max-w-xl text-pretty text-[14px] leading-relaxed text-white/80 sm:text-[15px] lg:text-[16px]">
-              Vehicle cushion work, upholstery, Japanese seat sets and full interior services —
+              Vehicle cushion work, upholstery, Japanese seat sets and full interior services
               for vans, jeeps, cars, buses and trucks across Sri Lanka.
             </p>
 

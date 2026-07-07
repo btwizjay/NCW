@@ -91,7 +91,7 @@ export function ManageBooking(props: {
       });
       const json = await res.json();
       if (res.status === 409 && json.error === 'slot_full') {
-        setError('That slot was just taken — please choose another time.');
+        setError('That slot was just taken. Please choose another time.');
         loadAvailability(selectedDate);
         return;
       }
@@ -102,7 +102,7 @@ export function ManageBooking(props: {
         return;
       }
       if (json.error === 'not_configured') {
-        setError('We can’t change this online right now — please WhatsApp us.');
+        setError('We can’t change this online right now. Please WhatsApp us.');
         return;
       }
       if (!res.ok || !json.ok) throw new Error();
@@ -128,7 +128,7 @@ export function ManageBooking(props: {
       });
       const json = await res.json();
       if (json.error === 'not_configured') {
-        setError('We can’t cancel online right now — please WhatsApp us.');
+        setError('We can’t cancel online right now. Please WhatsApp us.');
         return;
       }
       if (json.error === 'already_cancelled') {

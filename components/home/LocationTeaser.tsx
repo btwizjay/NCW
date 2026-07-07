@@ -23,7 +23,7 @@ export function LocationTeaser() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="h-full w-full"
-            title={`${business.name} — workshop location in ${business.address.city}`}
+            title={`${business.name} workshop location in ${business.address.city}`}
           />
         </div>
 

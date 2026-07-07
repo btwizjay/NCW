@@ -82,7 +82,7 @@ function shell(
 
 export function customerBookingEmail(booking: Booking): { subject: string; html: string } {
   return {
-    subject: `Your booking request — ${business.name} (${booking.reference})`,
+    subject: `Your booking request - ${business.name} (${booking.reference})`,
     html: shell(
       'Booking request received',
       `Thanks, ${booking.name.split(' ')[0]}. We’ve received your request and will confirm by phone or WhatsApp within one working day. Nothing is charged until we agree a quote.`,
@@ -98,7 +98,7 @@ export function reminderEmail(
   whenLabel: string,
 ): { subject: string; html: string } {
   return {
-    subject: `Reminder: your appointment ${whenLabel} — ${business.name}`,
+    subject: `Reminder: your appointment ${whenLabel} - ${business.name}`,
     html: shell(
       `Appointment reminder`,
       `Hi ${booking.name.split(' ')[0]}, a friendly reminder about your upcoming visit ${whenLabel}. If anything's changed, you can reschedule or cancel below.`,
@@ -111,7 +111,7 @@ export function reminderEmail(
 
 export function rescheduledEmail(booking: Booking): { subject: string; html: string } {
   return {
-    subject: `Appointment updated — ${business.name} (${booking.reference})`,
+    subject: `Appointment updated - ${business.name} (${booking.reference})`,
     html: shell(
       'Your appointment was updated',
       `Hi ${booking.name.split(' ')[0]}, your appointment has been moved to the new time shown below. If this wasn't you, contact us right away.`,
@@ -124,10 +124,10 @@ export function rescheduledEmail(booking: Booking): { subject: string; html: str
 
 export function cancelledEmail(booking: Booking): { subject: string; html: string } {
   return {
-    subject: `Appointment cancelled — ${business.name} (${booking.reference})`,
+    subject: `Appointment cancelled - ${business.name} (${booking.reference})`,
     html: shell(
       'Your appointment was cancelled',
-      `Hi ${booking.name.split(' ')[0]}, your appointment below has been cancelled. We hope to see you another time — book again whenever you're ready.`,
+      `Hi ${booking.name.split(' ')[0]}, your appointment below has been cancelled. We hope to see you another time. Book again whenever you're ready.`,
       booking,
       `Changed your mind? Just book again at ${(process.env.NEXT_PUBLIC_SITE_URL || business.siteUrl).replace(/\/$/, '')}/book.`,
     ),
@@ -157,7 +157,7 @@ export function workshopBookingEmail(booking: Booking): { subject: string; html:
       'New booking request',
       `A new appointment was requested through the website. Confirm it with the customer, then mark it Confirmed in the Studio.`,
       booking,
-      `Reply to this email to reach ${booking.name} directly${booking.email ? '' : ' (no email provided — call or WhatsApp the phone number above)'}.`,
+      `Reply to this email to reach ${booking.name} directly${booking.email ? '' : ' (no email provided; call or WhatsApp the phone number above)'}.`,
     ),
   };
 }

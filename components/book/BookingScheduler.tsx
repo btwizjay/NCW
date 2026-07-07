@@ -41,7 +41,7 @@ function buildIcsUrl(date: string, time: string, service: string) {
     `DTSTAMP:${stamp(new Date())}`,
     `DTSTART:${stamp(startUtc)}`,
     `DTEND:${stamp(endUtc)}`,
-    `SUMMARY:${service} — ${business.name}`,
+    `SUMMARY:${service} at ${business.name}`,
     `LOCATION:${business.address.formatted}`,
     'END:VEVENT',
     'END:VCALENDAR',
@@ -114,14 +114,14 @@ export function BookingScheduler() {
       });
       const json = await res.json();
       if (res.status === 409) {
-        setFormError('Sorry — that slot was just taken. Please choose another time.');
+        setFormError('Sorry, that slot was just taken. Please choose another time.');
         setStep(1);
         setSelectedTime(null);
         loadAvailability(selectedDate);
         return;
       }
       if (json?.error === 'not_configured') {
-        setFormError('Online booking isn’t switched on yet — please book on WhatsApp and we’ll sort your slot.');
+        setFormError('Online booking isn’t switched on yet. Please book on WhatsApp and we’ll sort your slot.');
         return;
       }
       if (!res.ok || !json.ok) throw new Error();

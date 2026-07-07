@@ -20,7 +20,7 @@ export default function ContactPage() {
         imageAlt={`The ${business.name} workshop`}
         eyebrow="Contact"
         title="Contact Us"
-        subtitle="Message us, call, or send a few details — we’ll reply with honest advice and a clear quote."
+        subtitle="Message us, call, or send a few details, and we’ll reply with honest advice and a clear quote."
       >
         <ContactContent />
       </PageHero>

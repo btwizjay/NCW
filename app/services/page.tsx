@@ -30,7 +30,8 @@ export default function ServicesPage() {
           {services.map((service, idx) => (
             <article
               key={service.slug}
-              className="grid gap-10 lg:grid-cols-12 lg:gap-16"
+              id={service.slug}
+              className="grid scroll-mt-28 gap-10 lg:grid-cols-12 lg:gap-16"
             >
               <div className={`relative lg:col-span-7 ${idx % 2 ? 'lg:order-2' : ''}`}>
                 <div className="relative aspect-[5/4] w-full overflow-hidden rounded-4xl bg-surface-alt shadow-soft">

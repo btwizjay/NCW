@@ -9,7 +9,7 @@ import { pageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = pageMetadata(
   'Book an Appointment',
-  'Schedule a workshop visit for cushion work, Japanese seat fitting, leather re-trim or full interior restoration — pick a date and time online.',
+  'Schedule a workshop visit for cushion work, Japanese seat fitting, leather re-trim or full interior restoration. Pick a date and time online.',
 );
 
 export default function BookPage() {

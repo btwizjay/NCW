@@ -63,6 +63,27 @@
   .animate-aurora { animation: none !important; }
 }
 
+/* ───────────────────────────────────────────────────────────────
+   Stitched thread for the homepage process band — a dashed thread
+   that slowly "sews" along its length. Plain CSS so it always ships.
+   ─────────────────────────────────────────────────────────────── */
+@keyframes stitch-run {
+  from { background-position-x: 0; }
+  to   { background-position-x: 16px; }
+}
+.stitch-thread {
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.35) 0 8px,
+    transparent 8px 16px
+  );
+  animation: stitch-run 1.4s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stitch-thread { animation: none !important; }
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-pirulen), sans-serif;
   color: #a91916;

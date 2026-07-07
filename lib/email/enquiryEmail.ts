@@ -61,7 +61,7 @@ export function enquiryEmail(e: Enquiry): { subject: string; html: string } {
         <p style="margin:0;font-size:13px;line-height:1.6;color:${MUTED};">${
           e.email
             ? 'Reply to this email to reach them directly.'
-            : 'No email provided — call or WhatsApp the phone number above.'
+            : 'No email provided. Call or WhatsApp the phone number above.'
         }</p>
       </div>
       <div style="padding:16px 28px;border-top:1px solid ${HAIRLINE};font-size:12px;color:#86868B;">

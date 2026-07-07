@@ -7,7 +7,7 @@ export type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      'They restored my Hiace interior to better than new. The fitment, the stitching, the foam — every detail was right.',
+      'They restored my Hiace interior to better than new. The fitment, the stitching, the foam: every detail was right.',
     name: 'Suresh P.',
     vehicle: 'Toyota Hiace KDH',
   },

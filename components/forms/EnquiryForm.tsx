@@ -39,7 +39,7 @@ export function EnquiryForm() {
       <div className="flex items-start gap-4 rounded-2xl bg-accent-soft p-6 text-accent-dark">
         <CheckIcon className="mt-0.5 h-5 w-5" />
         <div>
-          <p className="font-medium">Thanks — your message has been received.</p>
+          <p className="font-medium">Thanks! Your message has been received.</p>
           <p className="mt-1 text-sm text-ink-muted">We typically respond within a few hours during workshop hours.</p>
         </div>
       </div>
@@ -62,7 +62,7 @@ export function EnquiryForm() {
         {status === 'submitting' ? 'Sending…' : 'Send enquiry'}
       </Button>
       {status === 'error' && (
-        <p className="text-[14px] text-accent">Couldn’t send — please try WhatsApp or call us.</p>
+        <p className="text-[14px] text-accent">Couldn’t send. Please try WhatsApp or call us.</p>
       )}
     </form>
   );

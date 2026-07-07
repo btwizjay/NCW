@@ -17,7 +17,7 @@ export function CtaBanner() {
           Ready to refresh your vehicle’s interior?
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-pretty text-[15px] leading-relaxed text-ink-muted sm:text-base">
-          Send a photo of what you’d like done — we’ll come back with an honest quote and a clear timeline.
+          Send a photo of what you’d like done, and we’ll come back with an honest quote and a clear timeline.
         </p>
         <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button href="/book" variant="primary" size="md">

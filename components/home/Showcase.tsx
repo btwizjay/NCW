@@ -20,7 +20,7 @@ const workshopSlides = [
     eyebrow: "The Workshop",
     title: "Two decades of patient cabin work.",
     description:
-      "Nilantha began by re-trimming a single van seat in 2003. Today, our workshop in Pasyala handles full interiors for vans, jeeps, cars and commercial vehicles — with the same patient eye for detail.",
+      "Nilantha began by re-trimming a single van seat in 2003. Today, our workshop in Pasyala handles full interiors for vans, jeeps, cars and commercial vehicles, with the same patient eye for detail.",
     highlights: [
       "Genuine Japanese seat sets, sourced and inspected by us",
       "High-density foam suited to the Sri Lankan climate",
@@ -42,7 +42,7 @@ const workshopSlides = [
     eyebrow: "Materials",
     title: "Built for our climate.",
     description:
-      "We select every foam, fabric and adhesive for the heat and humidity of Sri Lanka. Our work stays tight, clean and comfortable — year after year.",
+      "We select every foam, fabric and adhesive for the heat and humidity of Sri Lanka. Our work stays tight, clean and comfortable, year after year.",
     highlights: [
       "Climate-resistant adhesives and fabrics",
       "Foam profiles tuned for heat and humidity",
@@ -53,7 +53,7 @@ const workshopSlides = [
     eyebrow: "Service",
     title: "Workshop pickup across the region.",
     description:
-      "We make the process easy — from consultation to finished fit, every detail is handled with care. Pickup service available across the greater Colombo region.",
+      "We make the process easy: from consultation to finished fit, every detail is handled with care. Pickup service available across the greater Colombo region.",
     highlights: [
       "Workshop pickup across the greater Colombo region",
       "Consultation to finished fit in one place",

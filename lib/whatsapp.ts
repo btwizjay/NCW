@@ -5,7 +5,7 @@ import { business } from '@/content/business';
 // prefixes "Hi {business.name}, " and appends a source line.
 export const waMessage = (intent?: string, source = 'website') => {
   const head = intent ? `Hi ${business.name}, ${intent}` : `Hi ${business.name}`;
-  return `${head}\n\n— sent via ${source}`;
+  return `${head}\n\n(sent via ${source})`;
 };
 
 export const waLink = (message?: string) => {

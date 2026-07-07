@@ -15,14 +15,14 @@ export const business = {
   siteUrl: 'https://nilanthacushionworks.lk',
 
   phone: {
-    e164: '+94771234567',
-    display: '077 123 4567',
+    e164: '+94777771949',
+    display: '077 777 1949',
   },
   whatsapp: {
-    e164: '94771234567',
-    display: '077 123 4567',
+    e164: '94770130672',
+    display: '077 013 0672',
   },
-  email: 'hello@nilanthacushionworks.lk',
+  email: 'nilanthacushionworke@gmail.com',
 
   address: {
     line1: 'No.257/5, Situwara Asapuwa',
@@ -46,9 +46,9 @@ export const business = {
   mapLinkUrl: `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`,
 
   social: {
-    facebook: '#',
-    instagram: '#',
-    tiktok: '#',
+    facebook: 'https://web.facebook.com/nilanthacushionwork/',
+    instagram: 'https://www.instagram.com/nilanthacushionworks/',
+    tiktok: 'https://www.tiktok.com/@nilanthacushionworks',
   },
 } as const;
 

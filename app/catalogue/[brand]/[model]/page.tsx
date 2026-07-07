@@ -53,7 +53,7 @@ export async function generateMetadata({
   if (modelSlug === ALL_MODELS_SLUG) {
     return pageMetadata(
       `All ${brand.name} Interior Work`,
-      `Every catalogued ${brand.name} work item — across all models.`,
+      `Every catalogued ${brand.name} work item, across all models.`,
     );
   }
 

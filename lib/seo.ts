@@ -4,7 +4,7 @@ import { business } from '@/content/business';
 export const baseMetadata: Metadata = {
   metadataBase: new URL(business.siteUrl),
   title: {
-    default: `${business.name} — ${business.tagline}`,
+    default: `${business.name} | ${business.tagline}`,
     template: `%s · ${business.name}`,
   },
   description: business.description,

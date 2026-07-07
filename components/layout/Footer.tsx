@@ -182,7 +182,15 @@ export function Footer() {
             </p>
 
             <p className="font-sans text-[11px] text-ink-subtle">
-              Crafted with care in Sri Lanka.
+              Project by{' '}
+              <a
+                href="https://www.ascendit.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-ink"
+              >
+                Ascendit Media
+              </a>
             </p>
           </div>
         </div>

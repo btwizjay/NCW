@@ -84,7 +84,7 @@ function addHour(time: string): string {
 function eventDescription(booking: Booking): string {
   return [
     `Reference: ${booking.reference}`,
-    `Status: requested — confirm with the customer`,
+    `Status: requested. Confirm with the customer.`,
     `Service: ${booking.service}`,
     `Vehicle: ${booking.vehicleMake} ${booking.vehicleModel}`,
     `Name: ${booking.name}`,
@@ -115,7 +115,7 @@ async function getAuth(): Promise<{ token: string; calendarId: string } | null> 
 
 function eventBody(booking: Booking) {
   return {
-    summary: `${booking.name} — ${booking.service}`,
+    summary: `${booking.name}: ${booking.service}`,
     description: eventDescription(booking),
     location: business.address.formatted,
     start: { dateTime: `${booking.date}T${booking.time}:00`, timeZone: 'Asia/Colombo' },
