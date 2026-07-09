@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/ui/PageHero';
@@ -127,6 +129,10 @@ const galleryTiles = [
 ];
 
 export default function AboutPage() {
+  const founderPhotoExists = existsSync(
+    join(process.cwd(), 'public/images/about/founder.jpg'),
+  );
+
   return (
     <>
       <PageHero
@@ -331,18 +337,40 @@ export default function AboutPage() {
               aria-hidden="true"
               className="absolute -inset-3 -rotate-2 rounded-[2rem] bg-accent-soft sm:-inset-4"
             />
-            {/* TODO(photo): drop the founder's portrait at
-                public/images/about/founder.jpg — until then the frame renders
-                with an empty mat. */}
-            <ArchivalPrint
-              src="/images/about/founder.jpg"
-              alt="Mr. Nilantha Edirisinghe, founder of Nilantha Cushion Works"
-              caption={`Mr. Nilantha Edirisinghe at the ${business.name} workshop, Pasyala.`}
-              chip="The founder"
-              aspect="aspect-[4/5]"
-              tilt="rotate-[1deg]"
-              sizes="(min-width: 1024px) 38vw, (min-width: 640px) 384px, 100vw"
-            />
+            {/* Drop the founder's portrait at public/images/about/founder.jpg
+                and this frame picks it up automatically; until then it renders
+                a placeholder mat instead of a broken image. */}
+            {founderPhotoExists ? (
+              <ArchivalPrint
+                src="/images/about/founder.jpg"
+                alt="Mr. Nilantha Edirisinghe, founder of Nilantha Cushion Works"
+                caption={`Mr. Nilantha Edirisinghe at the ${business.name} workshop, Pasyala.`}
+                chip="The founder"
+                aspect="aspect-[4/5]"
+                tilt="rotate-[1deg]"
+                sizes="(min-width: 1024px) 38vw, (min-width: 640px) 384px, 100vw"
+              />
+            ) : (
+              <figure className="relative rotate-[1deg] transition-transform duration-500 ease-soft hover:rotate-0">
+                <div className="rounded-2xl bg-white p-3 shadow-lift ring-1 ring-hairline sm:p-4">
+                  <div className="relative flex aspect-[4/5] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-surface-alt">
+                    <span className="font-pirulen text-[28px] tracking-tight text-ink/15">NCW</span>
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-subtle">
+                      Portrait coming soon
+                    </span>
+                    <div aria-hidden="true" className="absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10" />
+                  </div>
+                  <figcaption className="mt-3 flex items-start justify-between gap-4 px-1 pb-1">
+                    <span className="text-[13px] leading-snug text-ink-muted">
+                      Mr. Nilantha Edirisinghe at the {business.name} workshop, Pasyala.
+                    </span>
+                    <span className="shrink-0 rounded-full bg-accent-soft px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-accent">
+                      The founder
+                    </span>
+                  </figcaption>
+                </div>
+              </figure>
+            )}
           </div>
 
           <div className="lg:col-span-7">
