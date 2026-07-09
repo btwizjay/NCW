@@ -2,7 +2,9 @@
 
 import { SectionHeader } from '@/components/ui/Section';
 import { QuoteIcon, StarIcon } from '@/components/ui/Icons';
+import { ViewportMarquee } from '@/components/ui/ViewportMarquee';
 import { testimonials, type Testimonial } from '@/content/testimonials';
+import { cn } from '@/lib/cn';
 
 function TestimonialCard({ t }: { t: Testimonial }) {
   return (
@@ -67,13 +69,15 @@ function MarqueeRow({
           'linear-gradient(to right, transparent, black 4rem, black calc(100% - 4rem), transparent)',
       }}
     >
-      <div className={`flex w-max select-none items-stretch gap-5 ${trackClass} ${slow ? 'marquee-track-slow' : ''}`}>
+      <ViewportMarquee
+        className={cn('flex w-max select-none items-stretch gap-5', trackClass, slow && 'marquee-track-slow')}
+      >
         {looped.map((t, i) => (
           <div key={`${t.name}-${i}`} aria-hidden={i >= items.length || undefined}>
             <TestimonialCard t={t} />
           </div>
         ))}
-      </div>
+      </ViewportMarquee>
     </div>
   );
 }

@@ -454,9 +454,11 @@ export default function AboutPage() {
                 sizes={tile.sizes}
                 className="object-cover transition-transform duration-700 ease-soft group-hover:scale-[1.04]"
               />
-              {/* Label reveals on hover over a legibility wash. */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              <span className="absolute bottom-4 left-5 translate-y-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+              {/* Legibility wash + label are always present (so touch devices
+                  see the caption without needing a hover state); hovering just
+                  deepens the wash a touch for emphasis on pointer devices. */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent transition-opacity duration-300 group-hover:from-black/70" />
+              <span className="absolute bottom-4 left-5 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
                 {tile.label}
               </span>
             </div>

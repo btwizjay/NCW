@@ -35,6 +35,22 @@ function glideTo(slug: string, reduce: boolean) {
   }
 }
 
+// True from lg: up. Used to skip the numeral-watermark parallax computation
+// entirely on mobile/tablet, where that element never renders (hidden lg:block)
+// — defaults to false so it matches the server render and there's no
+// hydration mismatch, then syncs after mount.
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+  return isDesktop;
+}
+
 // Staggered text reveal shared by every chapter's copy column.
 const textContainer: Variants = {
   hidden: {},
@@ -59,15 +75,18 @@ function Chapter({
 }) {
   const ref = useRef<HTMLElement>(null);
   const flipped = idx % 2 !== 0;
+  const isDesktop = useIsDesktop();
 
-  // One scroll progress per chapter drives the image parallax and the
-  // counter-drifting numeral watermark, so the chapter has real depth.
+  // One scroll progress per chapter drives the image parallax (live at every
+  // breakpoint — this is the piece that should reach mobile) and the
+  // counter-drifting numeral watermark (desktop-only element, so its motion
+  // is held constant below lg: rather than computed for nothing).
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
   });
   const imgY = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['-5%', '5%']);
-  const numY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [36, -36]);
+  const numY = useTransform(scrollYProgress, [0, 1], reduce || !isDesktop ? [0, 0] : [36, -36]);
 
   const item = textItem(reduce);
 
@@ -290,6 +309,31 @@ export function ServicesChapters() {
               </ol>
             </div>
           </nav>
+
+          {/* Compact progress rail — the mobile/tablet equivalent of the
+              desktop "On this page" nav (which is xl:-only). Sticks just
+              below the floating header and reads off the same scrollspy
+              state, so wayfinding survives on every screen smaller than xl:. */}
+          <div className="sticky top-24 z-20 mb-8 rounded-2xl bg-surface/95 p-4 shadow-soft ring-1 ring-hairline backdrop-blur-md xl:hidden">
+            <div className="flex items-center justify-between gap-4">
+              <span className="flex min-w-0 items-center gap-2 text-[13px] font-medium text-ink">
+                <span className="shrink-0 font-pirulen text-[10px] text-accent">
+                  0{active + 1}
+                </span>
+                <span className="truncate">{services[active].shortTitle}</span>
+              </span>
+              <span className="shrink-0 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-subtle">
+                {active + 1} / {services.length}
+              </span>
+            </div>
+            <div className="mt-2.5 h-[3px] w-full overflow-hidden rounded-full bg-hairline">
+              <motion.div
+                className="h-full rounded-full bg-accent"
+                animate={{ width: `${((active + 1) / services.length) * 100}%` }}
+                transition={{ duration: reduce ? 0 : 0.4, ease: EASE_SOFT }}
+              />
+            </div>
+          </div>
 
           <div className="space-y-24 lg:space-y-28">
             {services.map((service, idx) => (

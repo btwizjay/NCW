@@ -15,9 +15,13 @@ export function LocationTeaser() {
       <p className="mb-8 text-center font-mono text-xs font-semibold uppercase tracking-[0.18em] text-accent">
         Find us
       </p>
-      <div className="relative overflow-hidden rounded-3xl ring-1 ring-hairline shadow-soft">
-        {/* Map background */}
-        <div className="aspect-[4/3] w-full sm:aspect-[16/10] lg:aspect-[16/7]">
+      <div className="space-y-4 sm:relative sm:space-y-0 sm:overflow-hidden sm:rounded-3xl sm:ring-1 sm:ring-hairline sm:shadow-soft">
+        {/* Map. Below sm: this is its own full-height card — the info panel
+            moves into normal flow underneath it instead of floating on top,
+            so the map is never hidden behind a taller-than-the-map overlay
+            on narrow screens. From sm: up there's enough width for the
+            floating frosted panel to sit in a corner without covering it. */}
+        <div className="aspect-[4/3] w-full overflow-hidden rounded-3xl ring-1 ring-hairline shadow-soft sm:aspect-[16/10] sm:rounded-none sm:ring-0 sm:shadow-none lg:aspect-[16/7]">
           <iframe
             src={business.mapEmbedUrl}
             loading="lazy"
@@ -27,9 +31,10 @@ export function LocationTeaser() {
           />
         </div>
 
-        {/* Frosted info panel */}
-        <div className="absolute inset-x-0 bottom-0 p-3 sm:inset-x-auto sm:bottom-4 sm:left-4 sm:max-w-md lg:bottom-6 lg:left-6">
-          <div className="rounded-2xl bg-white/80 p-5 shadow-lift ring-1 ring-hairline backdrop-blur-xl sm:p-6">
+        {/* Info panel — a plain standalone card on mobile; a floating
+            frosted-glass panel over the map from sm: up. */}
+        <div className="sm:absolute sm:inset-x-auto sm:bottom-4 sm:left-4 sm:max-w-md lg:bottom-6 lg:left-6">
+          <div className="rounded-2xl bg-white p-5 shadow-lift ring-1 ring-hairline sm:bg-white/80 sm:backdrop-blur-xl sm:p-6">
             <h2 className="text-[18px] tracking-tighter leading-[1.2] sm:text-[20px]">
               Our workshop in Pasyala.
             </h2>

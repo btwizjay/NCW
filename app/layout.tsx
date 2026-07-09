@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/Footer';
 import { WhatsAppFab } from '@/components/WhatsAppFab';
 import { ScrollRestore } from '@/components/ScrollRestore';
 import { SmoothScroll } from '@/components/SmoothScroll';
+import { PageTransition } from '@/components/PageTransition';
 import { baseMetadata } from '@/lib/seo';
 import { business } from '@/content/business';
 
@@ -66,7 +67,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Header />
-        <main id="main">{children}</main>
+        <main id="main">
+          <PageTransition>{children}</PageTransition>
+        </main>
         <Footer />
         <WhatsAppFab />
         <SmoothScroll />

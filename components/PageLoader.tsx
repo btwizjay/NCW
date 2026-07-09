@@ -20,6 +20,19 @@ const PANEL_COUNT = 5;
 
 const UNMOUNT_AT = 4.3;
 
+// Once per browser session — so returning to "/" (back/forward, tapping the
+// logo) doesn't relock scroll and replay a 4s intro every time.
+const SESSION_KEY = '__ncw_intro_seen';
+
+function shouldSkip(): boolean {
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+    return sessionStorage.getItem(SESSION_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
 interface PageLoaderProps {
   onComplete?: () => void;
 }
@@ -31,6 +44,18 @@ export function PageLoader({
   const [phase, setPhase] = useState<'in' | 'out'>('in');
 
   useEffect(() => {
+    // Bail out instantly for prefers-reduced-motion or a repeat visit this
+    // session — no scroll lock, no multi-second panel sequence.
+    if (shouldSkip()) {
+      setVisible(false);
+      onComplete?.();
+      return;
+    }
+
+    try {
+      sessionStorage.setItem(SESSION_KEY, '1');
+    } catch {}
+
     document.body.style.overflow = 'hidden';
 
     const fadeOutTimer = setTimeout(() => setPhase('out'), HOLD_UNTIL * 1000);

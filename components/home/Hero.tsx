@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { WhatsAppIcon } from '@/components/ui/Icons';
+import { ViewportMarquee } from '@/components/ui/ViewportMarquee';
+import { HeroVideo } from '@/components/home/HeroVideo';
 import { waLink, waMessage } from '@/lib/whatsapp';
 import { business } from '@/content/business';
 
@@ -32,18 +34,7 @@ export function Hero() {
   return (
     <section className="flex h-[100svh] w-full flex-col p-1.5 sm:p-2">
       <div className="relative isolate mx-auto flex flex-1 flex-col w-full overflow-hidden rounded-[12px] bg-ink text-white shadow-lift ring-1 ring-black/5 lg:rounded-[16px]">
-        <video
-          className="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/videos/hero-poster.jpg"
-          aria-hidden="true"
-        >
-          <source src="/videos/hero-workshop.mp4" type="video/mp4" />
-        </video>
+        <HeroVideo />
 
         <div
           aria-hidden="true"
@@ -117,7 +108,7 @@ export function Hero() {
                   'linear-gradient(to right, transparent, black 4rem, black calc(100% - 4rem), transparent)',
               }}
             >
-              <div className="marquee-track flex w-max select-none items-center">
+              <ViewportMarquee className="marquee-track flex w-max select-none items-center">
                 {looped.map((b, i) => (
                   <div
                     key={`${b.slug}-${i}`}
@@ -141,7 +132,7 @@ export function Hero() {
                     </span>
                   </div>
                 ))}
-              </div>
+              </ViewportMarquee>
             </div>
           </Container>
         </div>

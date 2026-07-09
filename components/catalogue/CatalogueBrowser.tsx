@@ -199,8 +199,10 @@ export function BrandsView({ sanityBrands = [], products }: BrandsViewProps) {
                 Recent work, straight off the bench.
               </h2>
             </div>
-            <span className="hidden shrink-0 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-subtle sm:block">
-              Scroll →
+            {/* Visible at every breakpoint — mobile/touch is exactly the
+                audience most likely to need the "this scrolls" cue. */}
+            <span className="shrink-0 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-subtle">
+              Swipe →
             </span>
           </div>
           <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

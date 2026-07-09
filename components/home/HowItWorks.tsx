@@ -14,9 +14,10 @@ const steps = [
     meta: 'Takes two minutes',
     title: 'Tell us about it',
     body: 'Share your vehicle, the work you want done, and a day that suits you, here or on WhatsApp.',
-    // How far this tag hangs below the thread, and its resting tilt.
+    // How far this tag hangs below the thread (desktop only), and its
+    // resting tilt — a smaller swing on mobile, the full swing from lg: up.
     hang: 'lg:h-8',
-    tilt: 'lg:rotate-[-1.2deg]',
+    tilt: 'rotate-[-0.6deg] sm:rotate-[-0.9deg] lg:rotate-[-1.2deg]',
   },
   {
     k: '02',
@@ -25,7 +26,7 @@ const steps = [
     title: 'We confirm & quote',
     body: 'We call to confirm the slot and send a clear written quote. No surprises later.',
     hang: 'lg:h-16',
-    tilt: 'lg:rotate-[1.2deg]',
+    tilt: 'rotate-[0.6deg] sm:rotate-[0.9deg] lg:rotate-[1.2deg]',
   },
   {
     k: '03',
@@ -34,7 +35,7 @@ const steps = [
     title: 'Bring it in',
     body: 'Drop the vehicle with us. We finish by hand and sign it off with you in person.',
     hang: 'lg:h-11',
-    tilt: 'lg:rotate-[-0.8deg]',
+    tilt: 'rotate-[-0.4deg] sm:rotate-[-0.6deg] lg:rotate-[-0.8deg]',
   },
 ];
 
@@ -117,10 +118,11 @@ export function HowItWorks() {
                     className={cn('hidden w-px border-l border-dashed border-white/25 lg:block', hang)}
                   />
 
-                  {/* The swing tag. */}
+                  {/* The swing tag — tilts at rest, settles flat on hover
+                      (pointer) or press (touch), at every breakpoint. */}
                   <div
                     className={cn(
-                      'group relative w-full rounded-3xl border border-white/10 bg-white/[0.04] p-5 pt-8 backdrop-blur-sm transition-all duration-500 ease-soft hover:border-white/20 hover:bg-white/[0.07] lg:hover:rotate-0',
+                      'group relative w-full rounded-3xl border border-white/10 bg-white/[0.04] p-5 pt-8 backdrop-blur-sm transition-all duration-500 ease-soft hover:rotate-0 hover:border-white/20 hover:bg-white/[0.07] active:rotate-0',
                       tilt,
                     )}
                   >
