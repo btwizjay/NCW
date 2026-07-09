@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion, type Variants } from 'framer-motion';
 import { ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from '@/components/ui/Icons';
 import {
   colomboTodayKey,
@@ -21,6 +22,17 @@ const MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
+
+const EASE_SOFT = [0.22, 0.61, 0.36, 1] as const;
+
+// Tapping a day or a time button on a touch device can trigger the browser's
+// own "scroll the newly-focused control into view" behaviour, which — with
+// Lenis's virtual scroll running underneath — reads as the page abruptly
+// jumping/re-centering on whatever was just tapped. Blocking focus on pointer
+// interaction (mousedown/touchstart fires before the browser's focus-scroll
+// heuristic) stops it, while keyboard users tabbing to the control are
+// unaffected since that doesn't go through mousedown at all.
+const preventFocusScroll = (e: React.MouseEvent | React.TouchEvent) => e.preventDefault();
 
 type Cell = { key: string; date: Date; inMonth: boolean; disabled: boolean };
 
@@ -61,6 +73,7 @@ export function DateTimePicker({
   loadingSlots: boolean;
   slotError: string | null;
 }) {
+  const reduce = useReducedMotion();
   const todayKey = useMemo(() => colomboTodayKey(), []);
   const maxKey = useMemo(() => addDaysKey(todayKey, BOOKING_WINDOW_DAYS), [todayKey]);
   const [view, setView] = useState(() => {
@@ -84,6 +97,15 @@ export function DateTimePicker({
       return { year: v.year, month: m };
     });
   }
+
+  const container: Variants = {
+    hidden: {},
+    show: { transition: { staggerChildren: reduce ? 0 : 0.03 } },
+  };
+  const item: Variants = {
+    hidden: { opacity: 0, y: reduce ? 0 : 8 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: EASE_SOFT } },
+  };
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -117,9 +139,11 @@ export function DateTimePicker({
                 key={c.key}
                 type="button"
                 disabled={c.disabled}
+                onMouseDown={preventFocusScroll}
+                onTouchStart={preventFocusScroll}
                 onClick={() => onSelectDate(c.key)}
                 className={cn(
-                  'mx-auto flex h-8 w-8 items-center justify-center rounded-full text-[13px] transition-all duration-200 sm:h-9 sm:w-9',
+                  'mx-auto flex h-9 w-9 items-center justify-center rounded-full text-[13px] transition-all duration-200 sm:h-10 sm:w-10',
                   !c.inMonth && 'opacity-40',
                   c.disabled
                     ? 'cursor-not-allowed text-ink-subtle/50'
@@ -136,61 +160,110 @@ export function DateTimePicker({
         </div>
       </div>
 
-      {/* Time slots */}
-      <div className="rounded-2xl bg-surface-alt/40 p-4 ring-1 ring-hairline sm:p-5">
-        {!selectedDate ? (
-          <div className="flex h-full min-h-[12rem] flex-col items-center justify-center text-center">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-accent">
-              <CalendarIcon className="h-5 w-5" />
-            </span>
-            <p className="mt-3 text-[13px] text-ink-muted">
-              Select a date to see available times.
-            </p>
-          </div>
-        ) : loadingSlots ? (
-          <div className="grid grid-cols-2 gap-2">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-11 animate-pulse rounded-xl bg-surface-alt" />
-            ))}
-          </div>
-        ) : slotError ? (
-          <p className="text-[13px] text-accent">{slotError}</p>
-        ) : slots.length === 0 ? (
-          <p className="text-[13px] text-ink-muted">No times available on this day.</p>
-        ) : (
-          <>
-            <p className="mb-3 font-pirulen text-[10px] uppercase tracking-[0.14em] text-ink-subtle">
-              {formatDateLong(selectedDate)}
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {slots.map((s) => {
-                const active = selectedTime === s.time;
-                return (
-                  <button
-                    key={s.time}
-                    type="button"
-                    disabled={!s.available}
-                    onClick={() => onSelectTime(s.time)}
-                    className={cn(
-                      'h-11 rounded-xl border text-[13px] font-medium transition-all duration-200',
-                      !s.available
-                        ? 'cursor-not-allowed border-hairline bg-surface-alt text-ink-subtle/60 line-through'
-                        : active
-                          ? 'border-accent bg-accent text-white shadow-soft'
-                          : 'border-hairline bg-surface text-ink hover:-translate-y-0.5 hover:border-accent hover:text-accent hover:shadow-soft',
-                    )}
-                  >
-                    {s.label}
-                  </button>
-                );
-              })}
-            </div>
-            <p className="mt-3 text-[12px] text-ink-subtle">
-              Times shown in Sri Lanka time. Crossed-out slots are full.
-            </p>
-          </>
-        )}
-      </div>
+      {/* Time slots — height animates smoothly as content swaps (placeholder /
+          loading / error / empty / populated), and the panel's own reveal is a
+          contained fade + stagger, not a page-level scroll, so choosing a date
+          draws the eye here without moving the viewport. */}
+      <motion.div layout="size" transition={{ duration: reduce ? 0 : 0.35, ease: EASE_SOFT }} className="overflow-hidden rounded-2xl bg-surface-alt/40 p-4 ring-1 ring-hairline sm:p-5">
+        <AnimatePresence mode="wait" initial={false}>
+          {!selectedDate ? (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex h-full min-h-[12rem] flex-col items-center justify-center text-center"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-accent">
+                <CalendarIcon className="h-5 w-5" />
+              </span>
+              <p className="mt-3 text-[13px] text-ink-muted">
+                Select a date to see available times.
+              </p>
+            </motion.div>
+          ) : loadingSlots ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="grid grid-cols-2 gap-2"
+            >
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="h-11 animate-pulse rounded-xl bg-surface-alt" />
+              ))}
+            </motion.div>
+          ) : slotError ? (
+            <motion.p
+              key="error"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-[13px] text-accent"
+            >
+              {slotError}
+            </motion.p>
+          ) : slots.length === 0 ? (
+            <motion.p
+              key="none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-[13px] text-ink-muted"
+            >
+              No times available on this day.
+            </motion.p>
+          ) : (
+            <motion.div
+              key={`slots-${selectedDate}`}
+              variants={container}
+              initial="hidden"
+              animate="show"
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+            >
+              <motion.p
+                variants={item}
+                className="mb-3 font-pirulen text-[10px] uppercase tracking-[0.14em] text-ink-subtle"
+              >
+                {formatDateLong(selectedDate)}
+              </motion.p>
+              <div className="grid grid-cols-2 gap-2">
+                {slots.map((s) => {
+                  const active = selectedTime === s.time;
+                  return (
+                    <motion.button
+                      key={s.time}
+                      variants={item}
+                      type="button"
+                      disabled={!s.available}
+                      onMouseDown={preventFocusScroll}
+                      onTouchStart={preventFocusScroll}
+                      onClick={() => onSelectTime(s.time)}
+                      className={cn(
+                        'h-11 rounded-xl border text-[13px] font-medium transition-all duration-200',
+                        !s.available
+                          ? 'cursor-not-allowed border-hairline bg-surface-alt text-ink-subtle/60 line-through'
+                          : active
+                            ? 'border-accent bg-accent text-white shadow-soft'
+                            : 'border-hairline bg-surface text-ink hover:-translate-y-0.5 hover:border-accent hover:text-accent hover:shadow-soft',
+                      )}
+                    >
+                      {s.label}
+                    </motion.button>
+                  );
+                })}
+              </div>
+              <p className="mt-3 text-[12px] text-ink-subtle">
+                Times shown in Sri Lanka time. Crossed-out slots are full.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 }
@@ -210,6 +283,8 @@ function CalNav({
     <button
       type="button"
       onClick={onClick}
+      onMouseDown={preventFocusScroll}
+      onTouchStart={preventFocusScroll}
       disabled={disabled}
       aria-label={label}
       className={cn(

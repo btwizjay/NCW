@@ -122,7 +122,11 @@ export function ContactContent() {
       <section className="pt-12 pb-12 sm:pt-16 sm:pb-16">
         <Container size="wide">
           <motion.div variants={fadeUp} {...inView}>
-            <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+            {/* Below sm: a compact icon-left / text-right tap list (each row
+                is one line, so four channels don't cost a screen's worth of
+                scroll before the page even gets going); from sm: up, the
+                original vertical centered-card treatment. */}
+            <ul className="grid grid-cols-1 gap-1 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-12">
               {channels.map((c) => {
                 const Icon = c.icon;
                 return (
@@ -132,23 +136,23 @@ export function ContactContent() {
                       target={c.external ? '_blank' : undefined}
                       rel={c.external ? 'noopener noreferrer' : undefined}
                       aria-label={c.ariaLabel}
-                      className="group flex h-full flex-col items-center gap-4 rounded-2xl px-2 py-4 text-center outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/20"
+                      className="group flex items-center gap-4 rounded-2xl px-2 py-2.5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/20 sm:h-full sm:flex-col sm:justify-center sm:gap-4 sm:py-4 sm:text-center"
                     >
                       <span
                         className={cn(
-                          'flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full transition-colors',
+                          'flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full transition-colors sm:h-14 sm:w-14',
                           c.whatsapp
                             ? 'bg-whatsapp/10 text-whatsapp group-hover:bg-whatsapp group-hover:text-white'
                             : 'bg-surface-alt text-ink-muted group-hover:bg-accent-soft group-hover:text-accent',
                         )}
                       >
-                        <Icon className="h-6 w-6" aria-hidden="true" />
+                        <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
                       </span>
-                      <span className="flex min-w-0 flex-col items-center">
-                        <span className="block font-pirulen text-[12px] uppercase tracking-[0.16em] text-ink">
+                      <span className="flex min-w-0 flex-1 flex-col sm:flex-none sm:items-center">
+                        <span className="block font-pirulen text-[11px] uppercase tracking-[0.16em] text-ink sm:text-[12px]">
                           {c.label}
                         </span>
-                        <span className="mt-1.5 block break-words text-[13px] leading-snug text-ink-muted">
+                        <span className="mt-0.5 block truncate text-[13px] leading-snug text-ink-muted sm:mt-1.5 sm:whitespace-normal sm:break-words">
                           {c.value}
                         </span>
                         {c.sub && (
@@ -324,7 +328,7 @@ function ContactCard({ reduce }: { reduce: boolean | null }) {
             x: { duration: 0.7, ease: CURTAIN_EASE },
             opacity: { duration: 0.4 },
           }}
-          className="relative isolate z-20 flex min-h-[460px] flex-col justify-end overflow-hidden bg-ink p-4 text-white sm:p-5 lg:min-h-full"
+          className="relative isolate z-20 flex min-h-[400px] flex-col justify-end overflow-hidden bg-ink p-4 text-white sm:min-h-[460px] sm:p-5 lg:min-h-full"
         >
           <Image
             src="/images/workshop/1.jpeg"
@@ -377,8 +381,10 @@ function ContactCard({ reduce }: { reduce: boolean | null }) {
 
             <div className="my-5 h-px bg-white/15" />
 
-            {/* Address + opening hours */}
-            <div className="grid grid-cols-2 gap-5">
+            {/* Address + opening hours. Stacked on the narrowest phones so the
+                address isn't squeezed into a cramped, heavily-wrapped column;
+                side-by-side again from sm: up where there's room for it. */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
               <div className="min-w-0">
                 <p className="font-pirulen text-[11px] uppercase tracking-[0.18em] text-white/65">
                   Address
@@ -682,7 +688,7 @@ function MessageField() {
         placeholder="Your vehicle, the year, and what you’re after…"
         onInput={sync}
         data-lenis-prevent={scrollable ? '' : undefined}
-        className="w-full resize-none rounded-2xl border border-hairline bg-surface px-4 py-3 text-[15px] text-ink placeholder:text-ink-subtle outline-none transition-colors [scrollbar-width:none] focus:border-accent/50 focus:bg-surface focus:ring-2 focus:ring-accent/15 [&::-webkit-scrollbar]:hidden"
+        className="w-full resize-none rounded-2xl border border-hairline bg-surface px-4 py-3 text-[16px] text-ink placeholder:text-ink-subtle outline-none transition-colors [scrollbar-width:none] focus:border-accent/50 focus:bg-surface focus:ring-2 focus:ring-accent/15 [&::-webkit-scrollbar]:hidden sm:text-[15px]"
       />
     </label>
   );
@@ -713,7 +719,10 @@ function TextField({
         aria-invalid={error ? true : undefined}
         onInput={error ? () => onClearError?.(name) : undefined}
         className={cn(
-          'w-full rounded-full border px-5 py-3 text-[15px] text-ink outline-none transition-[color,background-color,border-color,box-shadow] duration-200',
+          // 16px on mobile — iOS Safari auto-zooms the viewport on focus for
+          // any input under 16px, which is a jarring UX. Reverts to the
+          // intended 15px from sm: up, where that bug doesn't apply.
+          'w-full rounded-full border px-5 py-3 text-[16px] text-ink outline-none transition-[color,background-color,border-color,box-shadow] duration-200 sm:text-[15px]',
           error
             ? 'border-red-400 bg-red-50 placeholder:text-red-400/60 ring-4 ring-red-500/10 focus:border-red-500 focus:ring-red-500/25'
             : 'border-hairline bg-surface placeholder:text-ink-subtle focus:border-accent/50 focus:ring-2 focus:ring-accent/15',

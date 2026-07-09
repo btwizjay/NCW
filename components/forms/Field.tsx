@@ -8,8 +8,10 @@ type BaseProps = {
   hint?: string;
 };
 
+// 16px on mobile — iOS Safari auto-zooms the viewport on focus for any input
+// under 16px. Reverts to the intended 15px from sm: up, where that doesn't apply.
 const inputClasses =
-  'w-full rounded-2xl border border-hairline bg-surface px-4 py-3 text-[15px] text-ink placeholder:text-ink-subtle outline-none transition-colors focus:border-accent/50 focus:ring-2 focus:ring-accent/15';
+  'w-full rounded-2xl border border-hairline bg-surface px-4 py-3 text-[16px] text-ink placeholder:text-ink-subtle outline-none transition-colors focus:border-accent/50 focus:ring-2 focus:ring-accent/15 sm:text-[15px]';
 
 export function Field({
   label,

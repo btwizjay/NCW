@@ -301,6 +301,12 @@ function ScheduleStep(props: {
               <button
                 key={opt}
                 type="button"
+                // Block the browser's own focus-scroll-into-view on pointer
+                // taps: with Lenis's virtual scroll running, that native
+                // scroll reads as the page abruptly jumping/re-centering on
+                // whatever was just tapped. Keyboard focus (Tab) is unaffected.
+                onMouseDown={(e) => e.preventDefault()}
+                onTouchStart={(e) => e.preventDefault()}
                 onClick={() => onService(opt)}
                 aria-pressed={active}
                 className={cn(
@@ -352,7 +358,7 @@ function ScheduleStep(props: {
           size="md"
           onClick={onContinue}
           disabled={!canContinue}
-          className="!bg-accent-dark hover:!bg-accent"
+          className="w-full !bg-accent-dark hover:!bg-accent sm:w-auto"
           iconRight={<ArrowRightIcon className="h-4 w-4" />}
         >
           Continue
