@@ -28,6 +28,12 @@ import {
 
 const REVALIDATE = { next: { revalidate: 10 } } as const;
 
+// True only when no Sanity project is wired up at all (local dev without
+// env vars, or a build missing the client). Once a project is configured,
+// an empty result set means "no content yet" and must be shown honestly —
+// never masked with local placeholder data.
+export const isSanityConfigured = Boolean(sanityClient);
+
 // ── Brands ────────────────────────────────────────────────────
 
 export async function getBrands(): Promise<CatalogueBrand[]> {
@@ -165,8 +171,7 @@ export async function getProducts(): Promise<Product[]> {
       REVALIDATE,
     );
     console.log(`[sanity] getProducts: ${docs?.length ?? 0} docs`);
-    if (!docs || docs.length === 0) return localProducts;
-    return docs.map(adaptProduct);
+    return (docs ?? []).map(adaptProduct);
   } catch (err) {
     console.warn('[sanity] getProducts fell back to local data:', err);
     return localProducts;

@@ -68,24 +68,34 @@ function stagger(i: number): React.CSSProperties {
 type BrandsViewProps = {
   sanityBrands?: CatalogueBrand[];
   products: Product[];
+  // Only true when no Sanity project is wired up at all (local dev demo).
+  // Once Sanity is configured, an empty result means "no content yet" and
+  // must render as an honest empty state, never as fake placeholder brands.
+  showLocalFallback?: boolean;
 };
 
-export function BrandsView({ sanityBrands = [], products }: BrandsViewProps) {
+export function BrandsView({
+  sanityBrands = [],
+  products,
+  showLocalFallback = false,
+}: BrandsViewProps) {
   const brands: CatalogueBrand[] =
     sanityBrands.length > 0
       ? sanityBrands
-      : localBrands.map((b) => {
-          const count = products.filter((p) => p.brand === b).length;
-          return {
-            id: b,
-            name: b,
-            slug: slugify(b),
-            coverImage: brandHeroImages[b],
-            popularModels: brandPopularModels[b] ?? [],
-            modelCount: 0,
-            workItemCount: count,
-          };
-        });
+      : showLocalFallback
+        ? localBrands.map((b) => {
+            const count = products.filter((p) => p.brand === b).length;
+            return {
+              id: b,
+              name: b,
+              slug: slugify(b),
+              coverImage: brandHeroImages[b],
+              popularModels: brandPopularModels[b] ?? [],
+              modelCount: 0,
+              workItemCount: count,
+            };
+          })
+        : [];
 
   if (brands.length === 0) {
     return (

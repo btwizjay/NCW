@@ -5,7 +5,7 @@ import { PageHero } from '@/components/ui/PageHero';
 import { Section } from '@/components/ui/Section';
 import { BrandsView } from '@/components/catalogue/CatalogueBrowser';
 import { pageMetadata } from '@/lib/seo';
-import { getBrands, getProducts } from '@/sanity/lib/data';
+import { getBrands, getProducts, isSanityConfigured } from '@/sanity/lib/data';
 import { HomepageBackdrop } from '@/components/home/HomepageBackdrop';
 import {
   brandHref,
@@ -104,7 +104,13 @@ export default async function CataloguePage({
 
 async function CatalogueData() {
   const [brands, products] = await Promise.all([getBrands(), getProducts()]);
-  return <BrandsView sanityBrands={brands} products={products} />;
+  return (
+    <BrandsView
+      sanityBrands={brands}
+      products={products}
+      showLocalFallback={!isSanityConfigured}
+    />
+  );
 }
 
 function CatalogueLoading() {
