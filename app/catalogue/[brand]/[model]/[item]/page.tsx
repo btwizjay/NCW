@@ -8,7 +8,7 @@ import {
   WorkItemNotFound,
 } from '@/components/catalogue/CatalogueBrowser';
 import { WorkItemDetailView } from '@/components/catalogue/WorkItemDetailView';
-import { pageMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, pageMetadata, productJsonLd } from '@/lib/seo';
 import {
   getBrandBySlug,
   getModelBySlug,
@@ -19,7 +19,7 @@ import {
   brandHeroImages,
   brandPopularModels,
 } from '@/content/brands';
-import { slugify } from '@/lib/catalogue/slugs';
+import { brandHref, itemHref, modelHref, slugify } from '@/lib/catalogue/slugs';
 import type { CatalogueBrand } from '@/sanity/lib/adapters';
 
 type Params = { brand: string; model: string; item: string };
@@ -55,6 +55,10 @@ export async function generateMetadata({
     product.name,
     product.summary ||
       `${product.brand}${product.vehicleModel ? ' ' + product.vehicleModel : ''} ${product.category}`,
+    {
+      path: itemHref(brandSlug, modelSlug, itemSlug),
+      image: product.image,
+    },
   );
 }
 
@@ -73,6 +77,37 @@ export default async function WorkItemPage({
 
   return (
     <>
+      {brand && model && product && (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(
+                breadcrumbJsonLd([
+                  { name: 'Catalogue', path: '/catalogue' },
+                  { name: brand.name, path: brandHref(brand.slug) },
+                  { name: model.name, path: modelHref(brand.slug, model.slug) },
+                  { name: product.name },
+                ]),
+              ),
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(
+                productJsonLd({
+                  name: product.name,
+                  summary: product.summary,
+                  image: product.image,
+                  brand: brand.name,
+                  path: itemHref(brand.slug, model.slug, itemSlug),
+                }),
+              ),
+            }}
+          />
+        </>
+      )}
       <PageHero
         image="/images/workshop/3.jpeg"
         imageAlt="Catalogued vehicle interior work"

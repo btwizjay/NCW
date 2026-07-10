@@ -19,6 +19,7 @@ import {
 export const metadata: Metadata = pageMetadata(
   'Product Catalogue',
   'Japanese seat sets, custom cushions, leather re-trims and interior parts, grouped by vehicle brand.',
+  { path: '/catalogue' },
 );
 
 type SearchParams = {

@@ -41,10 +41,21 @@ export const viewport: Viewport = {
 const orgJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'AutoBodyShop',
+  '@id': `${business.siteUrl}/#business`,
   name: business.name,
   description: business.description,
+  url: business.siteUrl,
+  image: `${business.siteUrl}/images/og-default.jpg`,
+  logo: `${business.siteUrl}/images/logo.png`,
   telephone: business.phone.e164,
   email: business.email,
+  priceRange: '$$',
+  currenciesAccepted: 'LKR',
+  paymentAccepted: 'Cash, Bank Transfer',
+  areaServed: {
+    '@type': 'Country',
+    name: 'Sri Lanka',
+  },
   address: {
     '@type': 'PostalAddress',
     streetAddress: `${business.address.line1}, ${business.address.line2}`,
@@ -53,7 +64,15 @@ const orgJsonLd = {
     postalCode: business.address.postal,
     addressCountry: 'LK',
   },
-  openingHours: ['Mo-Sa 08:30-18:00'],
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      opens: '08:30',
+      closes: '18:00',
+    },
+  ],
+  sameAs: [business.social.facebook, business.social.instagram, business.social.tiktok],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

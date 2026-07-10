@@ -7,7 +7,7 @@ import {
   ModelNotFound,
   ProductsView,
 } from '@/components/catalogue/CatalogueBrowser';
-import { pageMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, pageMetadata } from '@/lib/seo';
 import {
   getBrandBySlug,
   getModelBySlug,
@@ -19,7 +19,7 @@ import {
   brandHeroImages,
   brandPopularModels,
 } from '@/content/brands';
-import { ALL_MODELS_SLUG, slugify } from '@/lib/catalogue/slugs';
+import { ALL_MODELS_SLUG, brandHref, modelHref, slugify } from '@/lib/catalogue/slugs';
 import type { CatalogueBrand } from '@/sanity/lib/adapters';
 
 type Params = { brand: string; model: string };
@@ -54,6 +54,7 @@ export async function generateMetadata({
     return pageMetadata(
       `All ${brand.name} Interior Work`,
       `Every catalogued ${brand.name} work item, across all models.`,
+      { path: modelHref(brand.slug, ALL_MODELS_SLUG), image: brand.coverImage },
     );
   }
 
@@ -64,6 +65,10 @@ export async function generateMetadata({
   return pageMetadata(
     `${brand.name} ${model.name} Interior Work`,
     `${brand.name} ${model.name} seat sets, cushions and trim work.`,
+    {
+      path: modelHref(brand.slug, model.slug),
+      image: model.coverImage ?? brand.coverImage,
+    },
   );
 }
 
@@ -120,11 +125,25 @@ async function ModelContent({
   if (modelSlug === ALL_MODELS_SLUG) {
     const products = await getProductsForBrandSlug(brandSlug);
     return (
-      <ProductsView
-        brand={brand}
-        modelSlug={ALL_MODELS_SLUG}
-        products={products}
-      />
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              breadcrumbJsonLd([
+                { name: 'Catalogue', path: '/catalogue' },
+                { name: brand.name, path: brandHref(brand.slug) },
+                { name: `All ${brand.name}` },
+              ]),
+            ),
+          }}
+        />
+        <ProductsView
+          brand={brand}
+          modelSlug={ALL_MODELS_SLUG}
+          products={products}
+        />
+      </>
     );
   }
 
@@ -144,11 +163,25 @@ async function ModelContent({
   }
 
   return (
-    <ProductsView
-      brand={brand}
-      modelSlug={model.slug}
-      modelName={model.name}
-      products={products}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: 'Catalogue', path: '/catalogue' },
+              { name: brand.name, path: brandHref(brand.slug) },
+              { name: model.name },
+            ]),
+          ),
+        }}
+      />
+      <ProductsView
+        brand={brand}
+        modelSlug={model.slug}
+        modelName={model.name}
+        products={products}
+      />
+    </>
   );
 }

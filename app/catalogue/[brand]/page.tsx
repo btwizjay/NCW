@@ -3,7 +3,7 @@ import { PageHero } from '@/components/ui/PageHero';
 import { Section } from '@/components/ui/Section';
 import { HomepageBackdrop } from '@/components/home/HomepageBackdrop';
 import { BrandNotFound, ModelsView } from '@/components/catalogue/CatalogueBrowser';
-import { pageMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, pageMetadata } from '@/lib/seo';
 import {
   getBrandBySlug,
   getModelsForBrandSlug,
@@ -14,7 +14,7 @@ import {
   brandHeroImages,
   brandPopularModels,
 } from '@/content/brands';
-import { slugify } from '@/lib/catalogue/slugs';
+import { brandHref, slugify } from '@/lib/catalogue/slugs';
 import type { CatalogueBrand } from '@/sanity/lib/adapters';
 
 type Params = { brand: string };
@@ -50,6 +50,7 @@ export async function generateMetadata({
   return pageMetadata(
     `${brand.name} Vehicle Interior Work`,
     `Japanese seat sets, cushions, leather re-trims and trim work for ${brand.name} vehicles.`,
+    { path: brandHref(brand.slug), image: brand.coverImage },
   );
 }
 
@@ -63,6 +64,19 @@ export default async function BrandPage({
 
   return (
     <>
+      {brand && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              breadcrumbJsonLd([
+                { name: 'Catalogue', path: '/catalogue' },
+                { name: brand.name },
+              ]),
+            ),
+          }}
+        />
+      )}
       <PageHero
         image="/images/workshop/3.jpeg"
         imageAlt="Catalogued vehicle interior work"

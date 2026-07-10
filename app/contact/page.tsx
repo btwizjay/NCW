@@ -9,6 +9,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata: Metadata = pageMetadata(
   'Contact',
   `Visit our workshop in Pasyala, call ${business.phone.display} or message us on WhatsApp.`,
+  { path: '/contact' },
 );
 
 export default function ContactPage() {

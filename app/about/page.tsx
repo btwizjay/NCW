@@ -16,6 +16,7 @@ import { HomepageBackdrop } from '@/components/home/HomepageBackdrop';
 export const metadata: Metadata = pageMetadata(
   'About',
   `The story of ${business.name}, founded by Nilantha Edirisinghe and serving Sri Lankan drivers from Pasyala since ${business.established}.`,
+  { path: '/about' },
 );
 
 // The journey from a borrowed sewing machine to today's workshop.

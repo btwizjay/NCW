@@ -8,6 +8,7 @@ import { HomepageBackdrop } from '@/components/home/HomepageBackdrop';
 export const metadata: Metadata = pageMetadata(
   'Services',
   'Vehicle cushion work, Japanese seat sets, leather upholstery and full interior restoration in Pasyala, Sri Lanka.',
+  { path: '/services' },
 );
 
 export default function ServicesPage() {
