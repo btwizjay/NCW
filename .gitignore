@@ -43,3 +43,5 @@ next-env.d.ts
 .g.png
 .g-crop.png
 .dev-server.log
+
+.vercel
