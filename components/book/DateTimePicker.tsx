@@ -25,14 +25,11 @@ const MONTHS = [
 
 const EASE_SOFT = [0.22, 0.61, 0.36, 1] as const;
 
-// Tapping a day or a time button on a touch device can trigger the browser's
-// own "scroll the newly-focused control into view" behaviour, which — with
-// Lenis's virtual scroll running underneath — reads as the page abruptly
-// jumping/re-centering on whatever was just tapped. Blocking focus on pointer
-// interaction (mousedown/touchstart fires before the browser's focus-scroll
-// heuristic) stops it, while keyboard users tabbing to the control are
-// unaffected since that doesn't go through mousedown at all.
-const preventFocusScroll = (e: React.MouseEvent | React.TouchEvent) => e.preventDefault();
+// Blocks the browser from focusing the button on a pointer tap (mousedown
+// fires before any focus-scroll heuristic would kick in). Deliberately
+// mousedown-only: React attaches touchstart as a passive listener, so
+// calling preventDefault() there throws and does nothing.
+const preventFocusScroll = (e: React.MouseEvent) => e.preventDefault();
 
 type Cell = { key: string; date: Date; inMonth: boolean; disabled: boolean };
 
@@ -140,7 +137,6 @@ export function DateTimePicker({
                 type="button"
                 disabled={c.disabled}
                 onMouseDown={preventFocusScroll}
-                onTouchStart={preventFocusScroll}
                 onClick={() => onSelectDate(c.key)}
                 className={cn(
                   'mx-auto flex h-9 w-9 items-center justify-center rounded-full text-[13px] transition-all duration-200 sm:h-10 sm:w-10',
@@ -241,7 +237,6 @@ export function DateTimePicker({
                       type="button"
                       disabled={!s.available}
                       onMouseDown={preventFocusScroll}
-                      onTouchStart={preventFocusScroll}
                       onClick={() => onSelectTime(s.time)}
                       className={cn(
                         'h-11 rounded-xl border text-[13px] font-medium transition-all duration-200',
@@ -284,7 +279,6 @@ function CalNav({
       type="button"
       onClick={onClick}
       onMouseDown={preventFocusScroll}
-      onTouchStart={preventFocusScroll}
       disabled={disabled}
       aria-label={label}
       className={cn(
